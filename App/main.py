@@ -61,7 +61,7 @@ def implementacion():
     for j in range(k):
         plt.scatter(centroids1[j,0],centroids1[j,1],color = 'w',marker='x')
 
-    plt.savefig(f"./App/static/images/result.png")
+    #plt.savefig(f"./App/static/images/result.png")
 
     return render_template('implementacion.html')
 
