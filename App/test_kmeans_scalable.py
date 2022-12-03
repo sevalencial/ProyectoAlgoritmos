@@ -11,6 +11,7 @@ n = 10000
 d = 15
 
 data = get_random_data(k,n,d)
+data = data['data']
 
 centroids_initial = ScalableKMeansPlusPlus(data, 20, l)
 output_spp = KMeans(data, k, centroids_initial)

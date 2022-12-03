@@ -10,6 +10,7 @@ d = 15
 
 data = get_random_data(k,n,d)
 
+data = data['data']
 centroids_initial = KMeansPlusPlus(data, 20)
 output_kpp = KMeans(data, k, centroids_initial)
 
@@ -18,6 +19,7 @@ colors = [cmap(i) for i in np.linspace(0, 1, k)]
 
 centroids1 =output_kpp["Centroids"]
 labels1 = output_kpp["Labels"]
+iterations = output_kpp["Iteration before Coverge"]
 
 for i,color in enumerate(colors,start =1):
     plt.scatter(data[labels1==i, :][:,0], data[labels1==i, :][:,1], color=color)

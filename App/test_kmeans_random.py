@@ -10,6 +10,7 @@ n = 10000
 d = 15
 
 data = get_random_data(k,n,d)
+data = data['data']
 
 centroids_initial = data[np.random.choice(range(data.shape[0]), k, replace=False),:]
 output_k = KMeans(data, k, centroids_initial)

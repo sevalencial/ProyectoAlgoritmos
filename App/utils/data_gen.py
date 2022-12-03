@@ -15,7 +15,9 @@ def get_random_data(k=20, n=10000, d=15):
 
     ## simulate k centers from 15-dimensional spherical Gaussian distribution 
     mean = np.hstack(np.zeros((d,1)))
-    cov = np.diag(np.array([1,10,100]*5))
+    diag = np.linspace(1,d,d)
+    diag = 2**diag
+    cov = np.diag(diag)
     centers = np.random.multivariate_normal(mean, cov, k)
 
     ## Simulate n data
@@ -28,6 +30,7 @@ def get_random_data(k=20, n=10000, d=15):
             data = np.append(data, np.random.multivariate_normal(mean, np.diag(np.ones(d)) , int(n/k)), axis = 0) 
             trueLabels = np.append(trueLabels,np.repeat(i,int(n/k)))
     
-    return data
+    output = {'data':data, 'trueLabels':trueLabels}
+    return output
 
 

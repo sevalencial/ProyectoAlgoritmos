@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+    .column {
+  float: left;
+  width: 33.3%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+<h1>Resultados</h1>
+<br>
+
+<div class="row">
+    <div class="column">
+        <h2>Random Initialization</h1>
+<img src="{{ url_for('static', filename='images/result_random.png') }}">
+<ul>
+    <li>Number of iterations before convergence: {{ random_results['num_iterations'] }}</li>
+    <li>Misclassification Rate: {{ random_results['mis_class_rate']}}</li>
+    <li>Clustering cost: {{ random_results['cluster_cost']}}</li>
+    </li>
+</ul>
+    </div>
+    <div class="column">
+        <h2>Kmeans++ Initialization</h1>
+<img src="{{ url_for('static', filename='images/result_pp.png') }}">
+<ul>
+    <li>Number of iterations before convergence: {{ pp_results['num_iterations'] }}</li>
+    <li>Misclassification Rate: {{ pp_results['mis_class_rate']}}</li>
+    <li>Clustering cost: {{ pp_results['cluster_cost']}}</li>
+    </li>
+</ul>
+    </div>
+    <div class="column">
+        <h2>Kmeans|| Initialization</h1>
+        <img src="{{ url_for('static', filename='images/result_scalable.png') }}">
+        <ul>
+            <li>Number of iterations before convergence: {{ scalable_results['num_iterations'] }}</li>
+            <li>Misclassification Rate: {{ scalable_results['mis_class_rate']}}</li>
+            <li>Clustering cost: {{ scalable_results['cluster_cost']}}</li>
+            </li>
+        </ul>
+    </div>
+  </div>
+
+
+
+{% endblock %}

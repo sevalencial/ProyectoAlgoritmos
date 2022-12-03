@@ -9,7 +9,23 @@
 
 
 <center>
-<img src="{{ url_for('static', filename='images/result.png') }}">
+<h1>Random Initialization</h1>
+<img src="{{ url_for('static', filename='images/result_random.png') }}">
+<p>
+    Random Initialization converged after {{ num_iterations_random }} iterations!
+</p>
+<h1>Kmeans++ Initialization</h1>
+<img src="{{ url_for('static', filename='images/result_pp.png') }}">
+<p>
+    Kmeans++ Initialization converged after {{ num_iterations_pp }} iterations!
+</p>
+<h1>Kmeans|| Initialization</h1>
+<img src="{{ url_for('static', filename='images/result_scalable.png') }}">
+<p>
+    Kmeans|| Initialization converged after {{ num_iterations_scalable }} iterations!
+</p>
 </center>
+
+
 
 {% endblock %}
