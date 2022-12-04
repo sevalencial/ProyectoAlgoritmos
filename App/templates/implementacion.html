@@ -7,19 +7,18 @@
         <div class="form-holder">
             <div class="form-content">
                 <div class="form-items">
-                    <p></p>
                     <h1>Algoritmo de Clustering Scalable</h1>
                     <br>
                     <p>Algoritmo de partición de datos</p>
                     <br>
-                    <form class="requires-validation" novalidate method="POST">
+                    <form class="requires-validation" novalidate action="{{ url_for('implementacion') }}" method="POST">
 
                         <div class="col-md-12">
                             <span>Data</span>
                             <select class="form-select mt-3" name="data" required>
                                 <option selected disabled value="">Seleccionar</option>
-                                <option value="1">Por Defecto</option>
-                                <option value="2">Iris</option>
+                                <option type="text" value="1">Por Defecto</option>
+                                <option type="text" value="2">Iris</option>
                             </select>
                         </div>
                         <br>
@@ -38,8 +37,8 @@
 
                         <div class="col-md-12">
                             <label for="n">Cantidad de datos</label>
-                            <input class="form-control" id="n" type="text" name="n"
-                                placeholder="Numero de datos" required>
+                            <input class="form-control" id="n" type="text" name="n" placeholder="Numero de datos"
+                                required>
                         </div>
                         <br>
 
@@ -48,25 +47,15 @@
                             <input class="form-control" type="text" name="d" placeholder="Entero" required>
                         </div>
                         <br>
-
-<center>
-<h1>Random Initialization</h1>
-<img src="{{ url_for('static', filename='images/result_random.png') }}">
-<p>
-    Random Initialization converged after {{ num_iterations_random }} iterations!
-</p>
-<h1>Kmeans++ Initialization</h1>
-<img src="{{ url_for('static', filename='images/result_pp.png') }}">
-<p>
-    Kmeans++ Initialization converged after {{ num_iterations_pp }} iterations!
-</p>
-<h1>Kmeans|| Initialization</h1>
-<img src="{{ url_for('static', filename='images/result_scalable.png') }}">
-<p>
-    Kmeans|| Initialization converged after {{ num_iterations_scalable }} iterations!
-</p>
-</center>
-
+                        <div class="form-button mt-3">
+                            <input class="miboton" type="submit" value="Calcular" name="Calcular" onclick="{{ url_for('results') }}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}
