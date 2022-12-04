@@ -14,6 +14,8 @@ from utils.mis_class_rate import MisClassRate
 from utils.cluster_cost import ClusterCost
 import numpy as np
 import matplotlib
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 matplotlib.use('SVG')
 
 
@@ -27,24 +29,39 @@ def home():
     return render_template('index.html', mkd_text=mkd_text)
 
 @app.route('/Resultados')
-def results(l,k,n,d,data):
+def results(l,k,n,d,data_type):
     
-    l = 10
-    k = 5
+    l = 30
+    k = 4
     n = 1000
-    d = 30
+    d = 15
 
     # Corremos el experimento con los parametros seleccionados
 
-    data_generator = get_random_data(k, n, d)
-    data = data_generator['data']
-    trueLabels = data_generator['trueLabels']
+    data_type = 1
+
+    if data_type == 2:
+
+        data = pd.read_csv("App/data/Iris.csv", index_col = 0)
+        data.loc[data.Species == 'Iris-setosa','Species'] = 0
+        data.loc[data.Species == 'Iris-versicolor','Species'] = 1
+        data.loc[data.Species == 'Iris-virginica','Species'] = 2
+
+        trueLabels = np.array(data['Species'])
+        data = np.array(data.drop(columns = ['Species']))
+        data = StandardScaler().fit_transform(data)
+
+    elif data_type == 1:
+
+        data_generator = get_random_data(k, n, d)
+        data = data_generator['data']
+        trueLabels = data_generator['trueLabels']
     
     # Se calculan los centroides iniciales utilizando las 3 formas:
 
     centroids_initial_random = data[np.random.choice(range(data.shape[0]), k, replace=False),:]
-    centroids_initial_pp = KMeansPlusPlus(data, 20)
-    centroids_initial_scalable = ScalableKMeansPlusPlus(data, 20, l)
+    centroids_initial_pp = KMeansPlusPlus(data, k)
+    centroids_initial_scalable = ScalableKMeansPlusPlus(data, k, l)
 
     # Se hace el calculo utilizando las diferentes inicializaciones calculadas
 
@@ -71,30 +88,30 @@ def results(l,k,n,d,data):
     
     plt.figure(figsize=(4,4))
     for i,color in enumerate(colors,start =1):
-        plt.scatter(data[labels_random==i, :][:,0], data[labels_random==i, :][:,1], color=color)
+        plt.scatter(data[labels_random==i, :][:,2], data[labels_random==i, :][:,3], color=color)
 
     for j in range(k):
-        plt.scatter(centroids_random[j,0],centroids_random[j,1],color = 'w',marker='X')
+        plt.scatter(centroids_random[j,2],centroids_random[j,3],color = 'w',marker='X')
 
     plt.savefig(f"./App/static/images/result_random.png", transparent = True)
     plt.clf()
 
     plt.figure(figsize=(4,4))
     for i,color in enumerate(colors,start =1):
-        plt.scatter(data[labels_pp==i, :][:,0], data[labels_pp==i, :][:,1], color=color)
+        plt.scatter(data[labels_pp==i, :][:,2], data[labels_pp==i, :][:,3], color=color)
 
     for j in range(k):
-        plt.scatter(centroids_pp[j,0],centroids_pp[j,1],color = 'w',marker='X')
+        plt.scatter(centroids_pp[j,2],centroids_pp[j,3],color = 'w',marker='X')
     
     plt.savefig(f"./App/static/images/result_pp.png", transparent = True)
     plt.clf()
 
     plt.figure(figsize=(4,4))
     for i,color in enumerate(colors,start =1):
-        plt.scatter(data[labels_scalable==i, :][:,0], data[labels_scalable==i, :][:,1], color=color)
+        plt.scatter(data[labels_scalable==i, :][:,2], data[labels_scalable==i, :][:,3], color=color)
 
     for j in range(k):
-        plt.scatter(centroids_scalable[j,0],centroids_scalable[j,1],color = 'w',marker='X')
+        plt.scatter(centroids_scalable[j,2],centroids_scalable[j,3],color = 'w',marker='X')
 
     plt.savefig(f"./App/static/images/result_scalable.png", transparent = True)
     plt.clf
