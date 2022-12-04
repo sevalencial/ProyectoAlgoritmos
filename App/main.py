@@ -31,114 +31,117 @@ def home():
 
 @app.route('/Resultados',  methods=['GET'])
 def results():
-    print('lista: ', values)
-    l = int(values[2])
-    k = int(values[1])
-    d = int(values[4])
-    n = int(values[3])
-    data_type = int(values[0])
-    print(data_type)
-    #print('lista: ',l,k,d,n,data)
-    # Corremos el experimento con los parametros seleccionados
+    try:
+        print('lista: ', values)
+        l = int(values[2])
+        k = int(values[1])
+        d = int(values[4])
+        n = int(values[3])
+        data_type = int(values[0])
+        print(data_type)
+        #print('lista: ',l,k,d,n,data)
+        # Corremos el experimento con los parametros seleccionados
 
 
-    if data_type == 2:
+        if data_type == 2:
 
-        data = pd.read_csv("App/data/Iris.csv", index_col = 0)
-        data.loc[data.Species == 'Iris-setosa','Species'] = 0
-        data.loc[data.Species == 'Iris-versicolor','Species'] = 1
-        data.loc[data.Species == 'Iris-virginica','Species'] = 2
+            data = pd.read_csv("App/data/Iris.csv", index_col = 0)
+            data.loc[data.Species == 'Iris-setosa','Species'] = 0
+            data.loc[data.Species == 'Iris-versicolor','Species'] = 1
+            data.loc[data.Species == 'Iris-virginica','Species'] = 2
 
-        trueLabels = np.array(data['Species'])
-        data = np.array(data.drop(columns = ['Species']))
-        data = StandardScaler().fit_transform(data)
-        print(data)
-    elif data_type == 1:
-        data_generator = get_random_data(k, n, d)
-        data = data_generator['data']
-        trueLabels = data_generator['trueLabels']
-    
-    # Se calculan los centroides iniciales utilizando las 3 formas:
+            trueLabels = np.array(data['Species'])
+            data = np.array(data.drop(columns = ['Species']))
+            data = StandardScaler().fit_transform(data)
+            print(data)
+        elif data_type == 1:
+            data_generator = get_random_data(k, n, d)
+            data = data_generator['data']
+            trueLabels = data_generator['trueLabels']
+        
+        # Se calculan los centroides iniciales utilizando las 3 formas:
 
-    centroids_initial_random = data[np.random.choice(range(data.shape[0]), k, replace=False),:]
-    centroids_initial_pp = KMeansPlusPlus(data, k)
-    centroids_initial_scalable = ScalableKMeansPlusPlus(data, k, l)
+        centroids_initial_random = data[np.random.choice(range(data.shape[0]), k, replace=False),:]
+        centroids_initial_pp = KMeansPlusPlus(data, k)
+        centroids_initial_scalable = ScalableKMeansPlusPlus(data, k, l)
 
-    # Se hace el calculo utilizando las diferentes inicializaciones calculadas
+        # Se hace el calculo utilizando las diferentes inicializaciones calculadas
 
-    output_random = KMeans(data, k, centroids_initial_random)
-    output_pp = KMeans(data, k, centroids_initial_pp)
-    output_scalable = KMeans(data, k, centroids_initial_scalable)
+        output_random = KMeans(data, k, centroids_initial_random)
+        output_pp = KMeans(data, k, centroids_initial_pp)
+        output_scalable = KMeans(data, k, centroids_initial_scalable)
 
 
-    centroids_random =output_random["Centroids"]
-    labels_random = output_random["Labels"]
-    num_iterations_random = output_random["Iteration before Coverge"]
+        centroids_random =output_random["Centroids"]
+        labels_random = output_random["Labels"]
+        num_iterations_random = output_random["Iteration before Coverge"]
 
-    centroids_pp =output_pp["Centroids"]
-    labels_pp = output_pp["Labels"]
-    num_iterations_pp = output_pp["Iteration before Coverge"]
+        centroids_pp =output_pp["Centroids"]
+        labels_pp = output_pp["Labels"]
+        num_iterations_pp = output_pp["Iteration before Coverge"]
 
-    centroids_scalable =output_scalable["Centroids"]
-    labels_scalable = output_scalable["Labels"]
-    num_iterations_scalable = output_scalable["Iteration before Coverge"]
+        centroids_scalable =output_scalable["Centroids"]
+        labels_scalable = output_scalable["Labels"]
+        num_iterations_scalable = output_scalable["Iteration before Coverge"]
 
-    # Se generan los diferentes plots
-    cmap = plt.get_cmap('gnuplot')
-    colors = [cmap(i) for i in np.linspace(0, 1, k)]
-    
-    plt.figure(figsize=(4,4))
-    for i,color in enumerate(colors,start =1):
-        plt.scatter(data[labels_random==i, :][:,2], data[labels_random==i, :][:,3], color=color)
+        # Se generan los diferentes plots
+        cmap = plt.get_cmap('gnuplot')
+        colors = [cmap(i) for i in np.linspace(0, 1, k)]
+        
+        plt.figure(figsize=(4,4))
+        for i,color in enumerate(colors,start =1):
+            plt.scatter(data[labels_random==i, :][:,2], data[labels_random==i, :][:,3], color=color)
 
-    for j in range(k):
-        plt.scatter(centroids_random[j,2],centroids_random[j,3],color = 'w',marker='X')
+        for j in range(k):
+            plt.scatter(centroids_random[j,2],centroids_random[j,3],color = 'w',marker='X')
 
-    plt.savefig(f".\\App\\static\\images\\result_random.png", transparent = True)
-    plt.clf()
+        plt.savefig(f"./App/static/images/result_random.png", transparent = True)
+        plt.clf()
 
-    plt.figure(figsize=(4,4))
-    for i,color in enumerate(colors,start =1):
-        plt.scatter(data[labels_pp==i, :][:,2], data[labels_pp==i, :][:,3], color=color)
+        plt.figure(figsize=(4,4))
+        for i,color in enumerate(colors,start =1):
+            plt.scatter(data[labels_pp==i, :][:,2], data[labels_pp==i, :][:,3], color=color)
 
-    for j in range(k):
-        plt.scatter(centroids_pp[j,2],centroids_pp[j,3],color = 'w',marker='X')
-    
-    plt.savefig(f"./App/static/images/result_pp.png", transparent = True)
-    plt.clf()
+        for j in range(k):
+            plt.scatter(centroids_pp[j,2],centroids_pp[j,3],color = 'w',marker='X')
+        
+        plt.savefig(f"./App/static/images/result_pp.png", transparent = True)
+        plt.clf()
 
-    plt.figure(figsize=(4,4))
-    for i,color in enumerate(colors,start =1):
-        plt.scatter(data[labels_scalable==i, :][:,2], data[labels_scalable==i, :][:,3], color=color)
+        plt.figure(figsize=(4,4))
+        for i,color in enumerate(colors,start =1):
+            plt.scatter(data[labels_scalable==i, :][:,2], data[labels_scalable==i, :][:,3], color=color)
 
-    for j in range(k):
-        plt.scatter(centroids_scalable[j,2],centroids_scalable[j,3],color = 'w',marker='X')
+        for j in range(k):
+            plt.scatter(centroids_scalable[j,2],centroids_scalable[j,3],color = 'w',marker='X')
 
-    plt.savefig(f"./App/static/images/result_scalable.png", transparent = True)
-    plt.clf
+        plt.savefig(f"./App/static/images/result_scalable.png", transparent = True)
+        plt.clf
 
-    # Se calcula el misclassification rate y los costos
+        # Se calcula el misclassification rate y los costos
 
-    random_mis_class_rate = MisClassRate(trueLabels, output_random) # Random 
-    pp_mis_class_rate = MisClassRate(trueLabels, output_pp) # KMeans++
-    scalable_mis_class_rate = MisClassRate(trueLabels, output_scalable) # Scalable KMeans++
+        random_mis_class_rate = MisClassRate(trueLabels, output_random) # Random 
+        pp_mis_class_rate = MisClassRate(trueLabels, output_pp) # KMeans++
+        scalable_mis_class_rate = MisClassRate(trueLabels, output_scalable) # Scalable KMeans++
 
-    # Costos:
+        # Costos:
 
-    random_cost = ClusterCost(data, output_random) # Random 
-    pp_cost = ClusterCost(data, output_pp) # KMeans++
-    scalable_cost = ClusterCost(data, output_scalable) # Scalable KMeans++
+        random_cost = ClusterCost(data, output_random) # Random 
+        pp_cost = ClusterCost(data, output_pp) # KMeans++
+        scalable_cost = ClusterCost(data, output_scalable) # Scalable KMeans++
 
-    random_results = {'num_iterations': num_iterations_random, 'mis_class_rate': np.round(random_mis_class_rate,3),
-                    'cluster_cost': np.round(random_cost,3)}
+        random_results = {'num_iterations': num_iterations_random, 'mis_class_rate': np.round(random_mis_class_rate,3),
+                        'cluster_cost': np.round(random_cost,3)}
 
-    pp_results = {'num_iterations': num_iterations_pp, 'mis_class_rate': np.round(pp_mis_class_rate,3),
-                    'cluster_cost': np.round(pp_cost,3)}
+        pp_results = {'num_iterations': num_iterations_pp, 'mis_class_rate': np.round(pp_mis_class_rate,3),
+                        'cluster_cost': np.round(pp_cost,3)}
 
-    scalable_results = {'num_iterations': num_iterations_scalable, 'mis_class_rate': np.round(scalable_mis_class_rate,3),
-                    'cluster_cost': np.round(scalable_cost,3)}
+        scalable_results = {'num_iterations': num_iterations_scalable, 'mis_class_rate': np.round(scalable_mis_class_rate,3),
+                        'cluster_cost': np.round(scalable_cost,3)}
 
-    return render_template('results.html', random_results = random_results,pp_results = pp_results, scalable_results = scalable_results)
+        return render_template('results.html', random_results = random_results,pp_results = pp_results, scalable_results = scalable_results)
+    except:
+        return render_template('error.html')
 
 
 @app.route('/Implementacion',  methods=['GET', 'POST'])
