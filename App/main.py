@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, send_file, request, url_for
 from flask import jsonify
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -28,14 +28,16 @@ def home():
     mkd_text = "$\sum_{i=1}^ni$"
     return render_template('index.html', mkd_text=mkd_text)
 
-@app.route('/Resultados')
-def results(l,k,n,d,data_type):
-    
-    l = 30
-    k = 4
-    n = 1000
-    d = 15
 
+@app.route('/Resultados',  methods=['GET', 'POST'])
+def results():
+    print('lista: ', values)
+    l = int(values[2])
+    k = int(values[1])
+    d = int(values[4])
+    n = int(values[3])
+    data = int(values[0])
+    print('lista: ',l,k,d,n,data)
     # Corremos el experimento con los parametros seleccionados
 
     data_type = 1
@@ -140,14 +142,15 @@ def results(l,k,n,d,data_type):
     return render_template('results.html', random_results = random_results,pp_results = pp_results, scalable_results = scalable_results)
 
 
-@app.route('/Implementacion')
+@app.route('/Implementacion',  methods=['GET', 'POST'])
 def implementacion():
-
-    alg = 'kmeans||'
-
+    global values
+    values = [x for x in request.form.values()]
+    print(values)
     # Primero se deben capturar los parametros (dataset, algoritmo y valor de k)
-    
-    return results(None,None,None,None,None)
+    return render_template('implementacion.html')
+        
+
 
 #Generamos la ruta de una imagen
 
