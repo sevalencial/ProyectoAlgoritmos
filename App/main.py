@@ -29,18 +29,18 @@ def home():
     return render_template('index.html', mkd_text=mkd_text)
 
 
-@app.route('/Resultados',  methods=['GET', 'POST'])
+@app.route('/Resultados',  methods=['GET'])
 def results():
     print('lista: ', values)
     l = int(values[2])
     k = int(values[1])
     d = int(values[4])
     n = int(values[3])
-    data = int(values[0])
-    print('lista: ',l,k,d,n,data)
+    data_type = int(values[0])
+    print(data_type)
+    #print('lista: ',l,k,d,n,data)
     # Corremos el experimento con los parametros seleccionados
 
-    data_type = 1
 
     if data_type == 2:
 
@@ -52,9 +52,8 @@ def results():
         trueLabels = np.array(data['Species'])
         data = np.array(data.drop(columns = ['Species']))
         data = StandardScaler().fit_transform(data)
-
+        print(data)
     elif data_type == 1:
-
         data_generator = get_random_data(k, n, d)
         data = data_generator['data']
         trueLabels = data_generator['trueLabels']
@@ -95,7 +94,7 @@ def results():
     for j in range(k):
         plt.scatter(centroids_random[j,2],centroids_random[j,3],color = 'w',marker='X')
 
-    plt.savefig(f"./App/static/images/result_random.png", transparent = True)
+    plt.savefig(f".\\App\\static\\images\\result_random.png", transparent = True)
     plt.clf()
 
     plt.figure(figsize=(4,4))
