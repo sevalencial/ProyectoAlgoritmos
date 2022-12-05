@@ -17,6 +17,7 @@ import matplotlib
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 matplotlib.use('SVG')
+import time
 
 
 #Guardamos nuestro servidor flask en app
@@ -61,9 +62,22 @@ def results():
         
         # Se calculan los centroides iniciales utilizando las 3 formas:
 
+        # Se calcuan los tiempos de ejecución de cada algoritmo
+
+        start = time.time()
         centroids_initial_random = data[np.random.choice(range(data.shape[0]), k, replace=False),:]
+        final = time.time()
+        random_time = final-start
+
+        start = time.time()
         centroids_initial_pp = KMeansPlusPlus(data, k)
+        final = time.time()
+        pp_time = final-start
+
+        start = time.time()
         centroids_initial_scalable = ScalableKMeansPlusPlus(data, k, l)
+        final = time.time()
+        scalable_time = final-start
 
         # Se hace el calculo utilizando las diferentes inicializaciones calculadas
 
@@ -131,13 +145,13 @@ def results():
         scalable_cost = ClusterCost(data, output_scalable) # Scalable KMeans++
 
         random_results = {'num_iterations': num_iterations_random, 'mis_class_rate': np.round(random_mis_class_rate,3),
-                        'cluster_cost': np.round(random_cost,3)}
+                        'cluster_cost': np.round(random_cost,3), 'time':np.round(random_time,6)}
 
         pp_results = {'num_iterations': num_iterations_pp, 'mis_class_rate': np.round(pp_mis_class_rate,3),
-                        'cluster_cost': np.round(pp_cost,3)}
+                        'cluster_cost': np.round(pp_cost,3), 'time':np.round(pp_time, 6)}
 
         scalable_results = {'num_iterations': num_iterations_scalable, 'mis_class_rate': np.round(scalable_mis_class_rate,3),
-                        'cluster_cost': np.round(scalable_cost,3)}
+                        'cluster_cost': np.round(scalable_cost,3), 'time':np.round(scalable_time,6)}
 
         return render_template('results.html', random_results = random_results,pp_results = pp_results, scalable_results = scalable_results)
     except:
