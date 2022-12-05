@@ -5,18 +5,17 @@
 <h1>Algoritmo K-Means Scalable</h1>
 <br>
 <p>
-Supongamos que \(X = \lbrace x_1, \dots, x_n \rbrace\) son puntos \(d-\)dimencional que se 
-agruparán y \( k\) es el número de agrupamiento (un entero positivo). Para un subcojunto \( Y\subseteq X\), se 
+Supongamos que \(X = \lbrace x_1, \dots, x_n \rbrace\) son puntos \(d-\)dimensionales que se 
+agruparán y \( k\) es el número de clústeres (un entero positivo). Para un subcojunto \( Y\subseteq X\), se 
 define la distancia de un punto \(x\) a \(Y\) como
 $$d(x,Y) = min_{y \in Y} \| x-y\|$$
 donde \( \| x-y\| \) es la distancia euclidiana entre dos puntos \(x\) y \(y\). Ademas, se define el centroide 
 del conjunto \(Y\) como
 $$Centroid(Y) = \frac{1}{|Y|} \sum_{y \in Y} y$$
-Para un conjunto de centros de clusters \( C=\{c_1, c_2 ,\dots , c_k\}\), define el <i>costo</i> de \(Y\) con
+Para un conjunto de centros de clusters \( C=\{c_1, c_2 ,\dots , c_k\}\), se define el <i>costo</i> de \(Y\) con
 respecto a \(C\) como
 $$ \phi_Y(C) = \sum_{y \in Y} d(y,C)^2$$
-En el algoritmo de <code>k-means scalable</code>, si se estableció un factor de sobremuestreo \(l = \Omega (k)\). \(l>1\) es 
-un entero.
+En el algoritmo de <code>k-means scalable</code>, se estableció un factor de sobremuestreo \(l = \Omega (k)\). \(l \in \mathbb{Z}^+ \).
 <br>
 <br>
 Los pasos del algoritmo <code>k-means scalable</code> son:
@@ -31,8 +30,11 @@ Los pasos del algoritmo <code>k-means scalable</code> son:
             <li>\( C=C\cup C' \)</li>
         </ol>
     </li>
-    <li>Para cada punto >\(x \in C\), calcule >\(w_{x}\) como el número de puntos en >\(X\) más cerca de x que otro punto en >\(C\)</li>
+    <li>Para cada punto \(x \in C\), calcule \(w_{x}\) como el número de puntos en \(X\) más cerca de x que otro punto en \(C\)</li>
     <li>Obtenga \(k\) clústeres al reagrupar esos puntos ponderados en \(C\)</li>
 </ol>
+<br>
+<h2><a href="https://arxiv.org/pdf/1203.6402.pdf" target="blank"> Link del paper</a></h2>
+<h2><a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/" target="blank"> Visualización de Kmeans</a></h2>
 </p>
 {% endblock %}
