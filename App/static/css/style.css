@@ -95,6 +95,18 @@ h1 {
     height: 40px;
     width: 100%;
 }
+.menu-vertical{
+    position: absolute;
+    background-color: #0D1821;
+    display: none;
+}
+.menu-vertical li .sergio{
+    color: #fff;
+    text-decoration: none;
+}
+.menu-horizontal li:hover .menu-vertical{
+    display: block;
+}
 .form-holder .form-content {
     position: relative;
     text-align: center;

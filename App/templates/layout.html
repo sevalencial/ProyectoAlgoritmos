@@ -20,11 +20,17 @@
         <a href="#" class="enlace">
             <img src="{{ url_for('static', filename='images/logoun2.png') }}" alt="" class="logo">
         </a>
-        <ul>
+        <ul class="menu-horizontal">
             <li><a href="\" class="active">Inicio</a></li>
             <li><a href="{{ url_for('implementacion') }}">Parámetros</a></li>
             <li><a href="{{ url_for('results') }}">Resultados</a></li>
-            <li><a href="#">Opciones</a></li>
+            <li><a href="#">Contactanos</a>
+                <ul class="menu-vertical">
+                    <li><a class="sergio" href="https://docs.google.com/spreadsheets/d/1iWLAG1jc3KR42OPernpPMUufC9m51h9F/edit?usp=sharing&ouid=116111676099005294143&rtpof=true&sd=true">Información</a></li>
+                    <li><a class="sergio" href="https://arxiv.org/abs/1203.6402">Documento</a></li>
+                    <li><a class="sergio" href="https://github.com/sevalencial/ProyectoAlgoritmos">Repositorio</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
     
