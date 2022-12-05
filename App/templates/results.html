@@ -21,33 +21,33 @@
 
 <div class="row">
     <div class="column">
-        <h2>Random Initialization</h1>
+        <h2>Inicialización aleatoria</h1>
 <img src="{{ url_for('static', filename='images/result_random.png') }}">
 <ul>
-    <li>Number of iterations before convergence: {{ random_results['num_iterations'] }}</li>
-    <li>Misclassification Rate: {{ random_results['mis_class_rate']}}</li>
-    <li>Clustering cost: {{ random_results['cluster_cost']}}</li>
-    </li>
+    <li>Número de iteraciones antes de converger: {{ random_results['num_iterations'] }}</li>
+    <li>Tasa de error de clasificación: {{ random_results['mis_class_rate']}}</li>
+    <li>Costo de clustering: {{ random_results['cluster_cost']}}</li>
+    <li>Tiempo de ejecución de la inicialización: {{ random_results['time']}}</li>
 </ul>
     </div>
     <div class="column">
-        <h2>Kmeans++ Initialization</h1>
+        <h2>Inicialización Kmeans++</h1>
 <img src="{{ url_for('static', filename='images/result_pp.png') }}">
 <ul>
-    <li>Number of iterations before convergence: {{ pp_results['num_iterations'] }}</li>
-    <li>Misclassification Rate: {{ pp_results['mis_class_rate']}}</li>
-    <li>Clustering cost: {{ pp_results['cluster_cost']}}</li>
-    </li>
+    <li>Número de iteraciones antes de converger: {{ pp_results['num_iterations'] }}</li>
+    <li>Tasa de error de clasificación: {{ pp_results['mis_class_rate']}}</li>
+    <li>Costo de clustering: {{ pp_results['cluster_cost']}}</li>
+    <li>Tiempo de ejecución de la inicialización: {{ pp_results['time']}}</li>
 </ul>
     </div>
     <div class="column">
-        <h2>Kmeans|| Initialization</h1>
+        <h2>Inicialización Kmeans||</h1>
         <img src="{{ url_for('static', filename='images/result_scalable.png') }}">
         <ul>
-            <li>Number of iterations before convergence: {{ scalable_results['num_iterations'] }}</li>
-            <li>Misclassification Rate: {{ scalable_results['mis_class_rate']}}</li>
-            <li>Clustering cost: {{ scalable_results['cluster_cost']}}</li>
-            </li>
+            <li>Número de iteraciones antes de converger: {{ scalable_results['num_iterations'] }}</li>
+            <li>Tasa de error de clasificación: {{ scalable_results['mis_class_rate']}}</li>
+            <li>Costo de clustering: {{ scalable_results['cluster_cost']}}</li>
+            <li>Tiempo de ejecución de la inicialización: {{ scalable_results['time']}}</li>
         </ul>
     </div>
   </div>
